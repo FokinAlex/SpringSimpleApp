@@ -1,4 +1,8 @@
+# IDE stuff
+**/.idea/**
+
 # Compiled class file
+**/target/**
 *.class
 
 # Log file
