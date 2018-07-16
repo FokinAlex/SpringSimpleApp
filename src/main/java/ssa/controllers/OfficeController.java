@@ -38,4 +38,18 @@ public class OfficeController implements SSAController {
     public Wrapper list(@RequestBody String requestBody) {
         return officeService.getOfficesByFilters(requestBody);
     }
+
+    @Override
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Wrapper update(@RequestBody String requestBody) {
+        return officeService.updateOffice(requestBody);
+    }
+
+    @Override
+    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Wrapper save(@RequestBody String requestBody) {
+        return officeService.saveOffice(requestBody);
+    }
 }

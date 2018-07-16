@@ -38,4 +38,18 @@ public class PersonController implements SSAController {
     public Wrapper list(@RequestBody String requestBody) {
         return personService.getPersonsByFilters(requestBody);
     }
+
+    @Override
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Wrapper update(@RequestBody String requestBody) {
+        return personService.updatePerson(requestBody);
+    }
+
+    @Override
+    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Wrapper save(@RequestBody String requestBody) {
+        return personService.savePerson(requestBody);
+    }
 }

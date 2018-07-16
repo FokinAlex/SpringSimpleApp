@@ -97,4 +97,64 @@ public class OfficeService {
             return new ErrorWrapper(e.getMessage());
         }
     }
+
+    public Wrapper updateOffice(String officeInfo) {
+        try {
+            JSONObject jsonObject = (JSONObject) PARSER.parse(officeInfo);
+            if (null == jsonObject.get("id") ||
+                    null == jsonObject.get("name") ||
+                    null == jsonObject.get("address")) {
+                throw new IllegalArgumentException("Required parameter is missing");
+            }
+            long id = (long) jsonObject.get("id");
+            Optional<Office> optionalOffice = officeRepository.findById(id);
+
+            if (optionalOffice.isPresent()) {
+                Office office = optionalOffice.get();
+
+                office.setName((String) jsonObject.get("name"));
+                office.setAddress((String) jsonObject.get("address"));
+                if (null != jsonObject.get("phone")) office.setPhone((String) jsonObject.get("phone"));
+                if (null != jsonObject.get("isActive")) office.setIsActive((Boolean) jsonObject.get("isActive"));
+
+                officeRepository.save(office);
+                // TODO: check if entity not updated ?
+                DataWrapper result = new DataWrapper();
+                result.getContentBuilder()
+                        .put("result", "success")
+                        .put();
+                return result;
+            } else {
+                throw new NoSuchElementException("Office with id = " + id + " cannot be found");
+            }
+        } catch (Exception e) {
+            return new ErrorWrapper(e.getMessage());
+        }
+    }
+
+    public Wrapper saveOffice(String newOfficeInfo) {
+        try {
+            JSONObject jsonObject = (JSONObject) PARSER.parse(newOfficeInfo);
+            if (null == jsonObject.get("name") ||
+                    null == jsonObject.get("address")) {
+                throw new IllegalArgumentException("Required parameter is missing");
+            }
+
+            Office office = new Office();
+            office.setName((String) jsonObject.get("name"));
+            office.setAddress((String) jsonObject.get("address"));
+            if (null != jsonObject.get("phone")) office.setPhone((String) jsonObject.get("phone"));
+            if (null != jsonObject.get("isActive")) office.setIsActive((Boolean) jsonObject.get("isActive"));
+
+            officeRepository.save(office);
+            // TODO: check if entity not saved ?
+            DataWrapper result = new DataWrapper();
+            result.getContentBuilder()
+                    .put("result", "success")
+                    .put();
+            return result;
+        } catch (Exception e) {
+            return new ErrorWrapper(e.getMessage());
+        }
+    }
 }

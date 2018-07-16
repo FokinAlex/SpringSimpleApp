@@ -10,6 +10,7 @@ import ssa.models.wrappers.Wrapper;
 import ssa.repositories.PersonRepository;
 import ssa.tools.FilterSpecificationBuilder;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -106,6 +107,77 @@ public class PersonService {
                         .put();
             });
 
+            return result;
+        } catch (Exception e) {
+            return new ErrorWrapper(e.getMessage());
+        }
+    }
+
+    public Wrapper updatePerson(String personInfo) {
+        try {
+            JSONObject jsonObject = (JSONObject) PARSER.parse(personInfo);
+            if (null == jsonObject.get("id") ||
+                    null == jsonObject.get("firstName") ||
+                    null == jsonObject.get("position")) {
+                throw new IllegalArgumentException("Required parameter is missing");
+            }
+            long id = (long) jsonObject.get("id");
+            Optional<Person> optionalPerson = personRepository.findById(id);
+
+            if (optionalPerson.isPresent()) {
+                Person person = optionalPerson.get();
+
+                person.setFirstName((String) jsonObject.get("firstName"));
+                person.setPosition((String) jsonObject.get("position"));
+                if (null != jsonObject.get("secondName")) person.setSecondName((String) jsonObject.get("secondName"));
+                if (null != jsonObject.get("middleName")) person.setMiddleName((String) jsonObject.get("middleName"));
+                if (null != jsonObject.get("phone")) person.setPhone((String) jsonObject.get("phone"));
+                if (null != jsonObject.get("docCode")) person.setDocCode((Byte) jsonObject.get("docCode"));
+                if (null != jsonObject.get("docDate")) person.setDocDate(Date.valueOf((String) jsonObject.get("docDate")));
+                if (null != jsonObject.get("citizenshipCode")) person.setCitizenshipCode((Short) jsonObject.get("citizenshipCode"));
+                if (null != jsonObject.get("isIdentified")) person.setIsIdentified((Boolean) jsonObject.get("isIdentified"));
+
+                personRepository.save(person);
+                // TODO: check if entity not updated ?
+                DataWrapper result = new DataWrapper();
+                result.getContentBuilder()
+                        .put("result", "success")
+                        .put();
+                return result;
+            } else {
+                throw new NoSuchElementException("Person with id = " + id + " cannot be found");
+            }
+        } catch (Exception e) {
+            return new ErrorWrapper(e.getMessage());
+        }
+    }
+
+    public Wrapper savePerson(String newPersonInfo) {
+        try {
+            JSONObject jsonObject = (JSONObject) PARSER.parse(newPersonInfo);
+            if (null == jsonObject.get("id") ||
+                    null == jsonObject.get("firstName") ||
+                    null == jsonObject.get("position")) {
+                throw new IllegalArgumentException("Required parameter is missing");
+            }
+
+            Person person = new Person();
+            person.setFirstName((String) jsonObject.get("firstName"));
+            person.setPosition((String) jsonObject.get("position"));
+            if (null != jsonObject.get("secondName")) person.setSecondName((String) jsonObject.get("secondName"));
+            if (null != jsonObject.get("middleName")) person.setMiddleName((String) jsonObject.get("middleName"));
+            if (null != jsonObject.get("phone")) person.setPhone((String) jsonObject.get("phone"));
+            if (null != jsonObject.get("docCode")) person.setDocCode((Byte) jsonObject.get("docCode"));
+            if (null != jsonObject.get("docDate")) person.setDocDate(Date.valueOf((String) jsonObject.get("docDate")));
+            if (null != jsonObject.get("citizenshipCode")) person.setCitizenshipCode((Short) jsonObject.get("citizenshipCode"));
+            if (null != jsonObject.get("isIdentified")) person.setIsIdentified((Boolean) jsonObject.get("isIdentified"));
+
+            personRepository.save(person);
+            // TODO: check if entity not saved ?
+            DataWrapper result = new DataWrapper();
+            result.getContentBuilder()
+                    .put("result", "success")
+                    .put();
             return result;
         } catch (Exception e) {
             return new ErrorWrapper(e.getMessage());

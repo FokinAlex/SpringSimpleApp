@@ -9,12 +9,18 @@ import ssa.models.wrappers.Wrapper;
 @RestController
 public interface SSAController {
 
-    @ResponseBody Wrapper
-    index();
+    @ResponseBody 
+    Wrapper index();
 
     @ResponseBody
     Wrapper id(@PathVariable String id);
 
     @ResponseBody
     Wrapper list(@RequestBody String requestBody);
+
+    @ResponseBody
+    Wrapper update(@RequestBody String requestBody);
+
+    @ResponseBody
+    Wrapper save(@RequestBody String requestBody);
 }

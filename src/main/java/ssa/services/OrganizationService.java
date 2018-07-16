@@ -24,7 +24,7 @@ public class OrganizationService {
 
     public Wrapper getAllOrganizations() {
         try {
-            List<Organization> organizations = this.organizationRepository.findAll();
+            List<Organization> organizations = organizationRepository.findAll();
 
             DataWrapper result = new DataWrapper();
 
@@ -93,6 +93,78 @@ public class OrganizationService {
                         .put();
             });
 
+            return result;
+        } catch (Exception e) {
+            return new ErrorWrapper(e.getMessage());
+        }
+    }
+
+    public Wrapper updateOrganization(String organizationInfo) {
+        try {
+            JSONObject jsonObject = (JSONObject) PARSER.parse(organizationInfo);
+            if (null == jsonObject.get("id") ||
+                    null == jsonObject.get("name") ||
+                    null == jsonObject.get("fullName") ||
+                    null == jsonObject.get("inn") ||
+                    null == jsonObject.get("kpp") ||
+                    null == jsonObject.get("address")) {
+                throw new IllegalArgumentException("Required parameter is missing");
+            }
+            long id = (long) jsonObject.get("id");
+            Optional<Organization> optionalOrganization = organizationRepository.findById(id);
+
+            if (optionalOrganization.isPresent()) {
+                Organization organization = optionalOrganization.get();
+
+                organization.setName((String) jsonObject.get("name"));
+                organization.setFullName((String) jsonObject.get("fullName"));
+                organization.setInn((String) jsonObject.get("inn"));
+                organization.setKpp((String) jsonObject.get("kpp"));
+                organization.setAddress((String) jsonObject.get("address"));
+                if (null != jsonObject.get("phone")) organization.setPhone((String) jsonObject.get("phone"));
+                if (null != jsonObject.get("isActive")) organization.setIsActive((Boolean) jsonObject.get("isActive"));
+
+                organizationRepository.save(organization);
+                // TODO: check if entity not updated ?
+                DataWrapper result = new DataWrapper();
+                result.getContentBuilder()
+                        .put("result", "success")
+                        .put();
+                return result;
+            } else {
+                throw new NoSuchElementException("Organization with id = " + id + " cannot be found");
+            }
+        } catch (Exception e) {
+            return new ErrorWrapper(e.getMessage());
+        }
+    }
+
+    public Wrapper saveOrganization(String newOrganizationInfo) {
+        try {
+            JSONObject jsonObject = (JSONObject) PARSER.parse(newOrganizationInfo);
+            if (null == jsonObject.get("name") ||
+                    null == jsonObject.get("fullName") ||
+                    null == jsonObject.get("inn") ||
+                    null == jsonObject.get("kpp") ||
+                    null == jsonObject.get("address")) {
+                throw new IllegalArgumentException("Required parameter is missing");
+            }
+
+            Organization organization = new Organization();
+            organization.setName((String) jsonObject.get("name"));
+            organization.setFullName((String) jsonObject.get("fullName"));
+            organization.setInn((String) jsonObject.get("inn"));
+            organization.setKpp((String) jsonObject.get("kpp"));
+            organization.setAddress((String) jsonObject.get("address"));
+            if (null != jsonObject.get("phone")) organization.setPhone((String) jsonObject.get("phone"));
+            if (null != jsonObject.get("isActive")) organization.setIsActive((Boolean) jsonObject.get("isActive"));
+
+            organizationRepository.save(organization);
+            // TODO: check if entity not saved ?
+            DataWrapper result = new DataWrapper();
+            result.getContentBuilder()
+                    .put("result", "success")
+                    .put();
             return result;
         } catch (Exception e) {
             return new ErrorWrapper(e.getMessage());

@@ -1,5 +1,7 @@
 package ssa.models.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -8,7 +10,8 @@ import java.sql.Date;
 public class Person {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
@@ -43,15 +46,15 @@ public class Person {
     private Short citizenshipCode;
 
     @ManyToOne
-    @JoinColumn(name = "off_id", nullable = false)
+    @JoinColumn(name = "off_id")
     private Office office;
 
     @ManyToOne
-    @JoinColumn(name = "doc_id", nullable = false)
+    @JoinColumn(name = "doc_id")
     private Document document;
 
     @ManyToOne
-    @JoinColumn(name = "cs_id", nullable = false)
+    @JoinColumn(name = "cs_id")
     private Citizenship citizenship;
 
     public Long getId() {
