@@ -9,8 +9,8 @@ import ssa.models.wrappers.Wrapper;
 @RestController
 public interface SSAController {
 
-    @ResponseBody Wrapper
-    index();
+    @ResponseBody 
+    Wrapper index();
 
     @ResponseBody
     Wrapper id(@PathVariable String id);
