@@ -126,10 +126,7 @@ public class OrganizationService {
 
                 organizationRepository.save(organization);
                 // TODO: check if entity not updated ?
-                DataWrapper result = new DataWrapper();
-                result.getContentBuilder()
-                        .put("result", "success")
-                        .put();
+                ResultWrapper result = new ResultWrapper("x");
                 return result;
             } else {
                 throw new NoSuchElementException("Organization with id = " + id + " cannot be found");
@@ -161,10 +158,7 @@ public class OrganizationService {
 
             organizationRepository.save(organization);
             // TODO: check if entity not saved ?
-            DataWrapper result = new DataWrapper();
-            result.getContentBuilder()
-                    .put("result", "success")
-                    .put();
+            ResultWrapper result = new ResultWrapper("success");
             return result;
         } catch (Exception e) {
             return new ErrorWrapper(e.getMessage());
