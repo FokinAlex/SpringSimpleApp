@@ -119,10 +119,7 @@ public class OfficeService {
 
                 officeRepository.save(office);
                 // TODO: check if entity not updated ?
-                DataWrapper result = new DataWrapper();
-                result.getContentBuilder()
-                        .put("result", "success")
-                        .put();
+                ResultWrapper result = new ResultWrapper("success");
                 return result;
             } else {
                 throw new NoSuchElementException("Office with id = " + id + " cannot be found");
@@ -148,10 +145,7 @@ public class OfficeService {
 
             officeRepository.save(office);
             // TODO: check if entity not saved ?
-            DataWrapper result = new DataWrapper();
-            result.getContentBuilder()
-                    .put("result", "success")
-                    .put();
+            ResultWrapper result = new ResultWrapper("success");
             return result;
         } catch (Exception e) {
             return new ErrorWrapper(e.getMessage());

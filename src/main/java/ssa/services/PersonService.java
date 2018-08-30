@@ -4,8 +4,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 import ssa.models.entities.Person;
-import ssa.models.wrappers.DataWrapper;
-import ssa.models.wrappers.ErrorWrapper;
+import ssa.models.wrappers.*;
 import ssa.models.wrappers.Wrapper;
 import ssa.repositories.PersonRepository;
 import ssa.tools.FilterSpecificationBuilder;
@@ -54,16 +53,16 @@ public class PersonService {
                 DataWrapper result = new DataWrapper();
 
                 result.getContentBuilder()
-                        .put("id", (person).getId())
+                        .put("id", person.getId())
                         .put("firstName", person.getFirstName())
                         .put("secondName", person.getSecondName())
                         .put("middleName", person.getMiddleName())
                         .put("position", person.getPosition())
                         .put("phone", person.getPhone())
-                        .put("docName", person.getDocument().getName())
-                        .put("docNumber", person.getDocCode())
+                        .put("docName", null != person.getDocument() ? person.getDocument().getName() : null)
+                        .put("docCode", person.getDocCode())
                         .put("docDate", person.getDocDate())
-                        .put("citizenshipName", person.getCitizenship().getName())
+                        .put("citizenshipName", null != person.getCitizenship() ? person.getCitizenship().getName() : null)
                         .put("citizenshipCode", person.getCitizenshipCode())
                         .put("isIdentified", person.isIdentified())
                         .put();
@@ -139,10 +138,7 @@ public class PersonService {
 
                 personRepository.save(person);
                 // TODO: check if entity not updated ?
-                DataWrapper result = new DataWrapper();
-                result.getContentBuilder()
-                        .put("result", "success")
-                        .put();
+                ResultWrapper result = new ResultWrapper("success");
                 return result;
             } else {
                 throw new NoSuchElementException("Person with id = " + id + " cannot be found");
@@ -155,8 +151,7 @@ public class PersonService {
     public Wrapper savePerson(String newPersonInfo) {
         try {
             JSONObject jsonObject = (JSONObject) PARSER.parse(newPersonInfo);
-            if (null == jsonObject.get("id") ||
-                    null == jsonObject.get("firstName") ||
+            if (null == jsonObject.get("firstName") ||
                     null == jsonObject.get("position")) {
                 throw new IllegalArgumentException("Required parameter is missing");
             }
@@ -174,10 +169,7 @@ public class PersonService {
 
             personRepository.save(person);
             // TODO: check if entity not saved ?
-            DataWrapper result = new DataWrapper();
-            result.getContentBuilder()
-                    .put("result", "success")
-                    .put();
+            ResultWrapper result = new ResultWrapper("success");
             return result;
         } catch (Exception e) {
             return new ErrorWrapper(e.getMessage());
