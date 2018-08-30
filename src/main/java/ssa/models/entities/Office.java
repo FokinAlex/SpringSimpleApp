@@ -1,5 +1,7 @@
 package ssa.models.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,7 +9,8 @@ import javax.persistence.*;
 public class Office {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
@@ -27,7 +30,7 @@ public class Office {
     private Long organizationId;
 
     @ManyToOne
-    @JoinColumn(name = "org_id", nullable = false)
+    @JoinColumn(name = "org_id")
     private Organization organization;
 
     public Long getId() {
@@ -66,7 +69,7 @@ public class Office {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setIsActive(boolean active) {
         isActive = active;
     }
 

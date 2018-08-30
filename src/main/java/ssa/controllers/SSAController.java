@@ -17,4 +17,10 @@ public interface SSAController {
 
     @ResponseBody
     Wrapper list(@RequestBody String requestBody);
+
+    @ResponseBody
+    Wrapper update(@RequestBody String requestBody);
+
+    @ResponseBody
+    Wrapper save(@RequestBody String requestBody);
 }

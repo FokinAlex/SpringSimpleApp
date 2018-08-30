@@ -38,4 +38,18 @@ public class OrganizationController implements SSAController {
     public Wrapper list(@RequestBody String requestBody) {
         return organizationService.getOrganizationsByFilters(requestBody);
     }
+
+    @Override
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Wrapper update(@RequestBody String requestBody) {
+        return organizationService.updateOrganization(requestBody);
+    }
+
+    @Override
+    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Wrapper save(@RequestBody String requestBody) {
+        return organizationService.saveOrganization(requestBody);
+    }
 }
