@@ -16,6 +16,16 @@ public class DocumentService {
         this.documentRepository = documentRepository;
     }
 
+    /**
+     * Returns a {@link Wrapper} which contains information about all document's types.
+     * Next information are available:
+     * <ul>
+     *     <li>code: type's code;</li>
+     *     <li>name: type's name.</li>
+     * </ul>
+     *
+     * @return the {@link Wrapper} object that can then be transformed into JSON
+     */
     public Wrapper getAllDocuments() {
         try {
             List<Document> documents =  documentRepository.findAll();
