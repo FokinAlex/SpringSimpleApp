@@ -1,6 +1,7 @@
 package ssa.tools;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
@@ -16,10 +17,27 @@ public class FilterSpecificationBuilder {
         this.statements = new HashMap<>();
     }
 
+    /**
+     * Adds a {@link Map.Entry} to the filter's statements.
+     *
+     * @param name  name of filter's statement
+     * @param value value of filter's statement
+     *
+     * @return current {@link FilterSpecificationBuilder}
+     */
     public FilterSpecificationBuilder addFilter(String name, Object value) {
         this.statements.put(name, value);
         return this;
     }
+
+    /**
+     * Builds and returns a {@link Specification} which can be used by {@link JpaSpecificationExecutor}.
+     *
+     * @return {@link FilterSpecificationBuilder}
+     *
+     * @see Specification
+     * @see JpaSpecificationExecutor
+     */
 
     public Specification build() {
         return (Specification) (root, criteriaQuery, criteriaBuilder) -> {

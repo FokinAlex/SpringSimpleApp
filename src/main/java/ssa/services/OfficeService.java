@@ -22,6 +22,17 @@ public class OfficeService {
         this.officeRepository = officeRepository;
     }
 
+    /**
+     * Returns a {@link Wrapper} which contains information about all {@link Office}s.
+     * Next information are available:
+     * <ul>
+     *     <li>id: office's id;</li>
+     *     <li>name: office's name;</li>
+     *     <li>isActive: boolean value of office's activity.</li>
+     * </ul>
+     *
+     * @return the {@link Wrapper} object that can then be transformed into JSON
+     */
     public Wrapper getAllOffices() {
         try {
             List<Office> offices = this.officeRepository.findAll();
@@ -42,6 +53,21 @@ public class OfficeService {
         }
     }
 
+    /**
+     * Returns a {@link Wrapper} which contains information about {@link Office} with defined id.
+     * Next information are available:
+     * <ul>
+     *     <li>id: office's id;</li>
+     *     <li>name: office's name;</li>
+     *     <li>address: office's address;</li>
+     *     <li>phone: office's phone;</li>
+     *     <li>isActive: boolean value of office's activity.</li>
+     * </ul>
+     *
+     * @param id the office's id {@link String} value which must be convertible to {@link Long}
+     *
+     * @return the {@link Wrapper} object that can then be transformed into JSON
+     */
     public Wrapper getOfficeById(String id) {
         try {
             Optional<Office> optionalOffice = officeRepository.findById(Long.parseLong(id));
@@ -66,6 +92,27 @@ public class OfficeService {
         }
     }
 
+    /**
+     * Returns a {@link Wrapper} which contains information about {@link Office}s that were found by defined filters.
+     * Next values can be in filters:
+     * <ul>
+     *     <li>orgId: organization's id - required;</li>
+     *     <li>name: office's name - optional;</li>
+     *     <li>phone: office's phone - optional;</li>
+     *     <li>isActive: boolean value of office's activity - optional.</li>
+     * </ul>
+     *
+     * Next information are available:
+     * <ul
+     *     <li>id: office's id;</li>
+     *     <li>name: office's name;</li>
+     *     <li>isActive: boolean value of office's activity.</li>
+     * </ul>
+     *
+     * @param filters the {@link String} value which contains filters and must be convertible into JSON
+     *
+     * @return the {@link Wrapper} object that can then be transformed into JSON
+     */
     public Wrapper getOfficesByFilters(String filters) {
         try {
             JSONObject jsonObject = (JSONObject) PARSER.parse(filters);
@@ -98,6 +145,21 @@ public class OfficeService {
         }
     }
 
+    /**
+     * Updates an {@link Office} and returns a {@link Wrapper} which contains information about operation results.
+     * Next values can be in argument:
+     * <ul>
+     *     <li>id: office's id - required;</li>
+     *     <li>name: office's name - required;</li>
+     *     <li>address: office's address - required;</li>
+     *     <li>phone: office's phone - optional;</li>
+     *     <li>isActive: boolean value of office's activity - optional.</li>
+     * </ul>
+     *
+     * @param officeInfo the {@link String} value which contains information and must be convertible into JSON
+     *
+     * @return the {@link Wrapper} object that can then be transformed into JSON
+     */
     public Wrapper updateOffice(String officeInfo) {
         try {
             JSONObject jsonObject = (JSONObject) PARSER.parse(officeInfo);
@@ -129,6 +191,20 @@ public class OfficeService {
         }
     }
 
+    /**
+     * Saves an {@link Office} and returns a {@link Wrapper} which contains information about operation results.
+     * Next values can be in argument:
+     * <ul>
+     *     <li>name: office's name - required;</li>
+     *     <li>address: office's address - required;</li>
+     *     <li>phone: office's phone - optional;</li>
+     *     <li>isActive: boolean value of office's activity - optional.</li>
+     * </ul>
+     *
+     * @param newOfficeInfo the {@link String} value which contains information and must be convertible into JSON
+     *
+     * @return the {@link Wrapper} object that can then be transformed into JSON
+     */
     public Wrapper saveOffice(String newOfficeInfo) {
         try {
             JSONObject jsonObject = (JSONObject) PARSER.parse(newOfficeInfo);

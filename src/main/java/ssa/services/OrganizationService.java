@@ -22,6 +22,17 @@ public class OrganizationService {
         this.organizationRepository = organizationRepository;
     }
 
+    /**
+     * Returns a {@link Wrapper} which contains information about all {@link Organization}s.
+     * Next information are available:
+     * <ul>
+     *     <li>id: organization's id;</li>
+     *     <li>name: organization's name;</li>
+     *     <li>isActive: boolean value of organization's activity.</li>
+     * </ul>
+     *
+     * @return the {@link Wrapper} object that can then be transformed into JSON
+     */
     public Wrapper getAllOrganizations() {
         try {
             List<Organization> organizations = organizationRepository.findAll();
@@ -42,6 +53,24 @@ public class OrganizationService {
         }
     }
 
+    /**
+     * Returns a {@link Wrapper} which contains information about {@link Organization} with defined id.
+     * Next information are available:
+     * <ul>
+     *     <li>id: organization's id;</li>
+     *     <li>name: organization's name;</li>
+     *     <li>fullName: organization's full name;</li>
+     *     <li>inn: organization's inn;</li>
+     *     <li>kpp: organization's kpp;</li>
+     *     <li>address: organization's address;</li>
+     *     <li>phone: organization's phone;</li>
+     *     <li>isActive: boolean value of organization's activity.</li>
+     * </ul>
+     *
+     * @param id the organization's id {@link String} value which must be convertible to {@link Long}
+     *
+     * @return the {@link Wrapper} object that can then be transformed into JSON
+     */
     public Wrapper getOrganizationById(String id) {
         try {
             Optional<Organization> optionalOrganization = organizationRepository.findById(Long.parseLong(id));
@@ -69,6 +98,26 @@ public class OrganizationService {
         }
     }
 
+    /**
+     * Returns a {@link Wrapper} which contains information about {@link Organization}s that were found by defined filters.
+     * Next values can be in filters:
+     * <ul>
+     *     <li>name: organization's name - required;</li>
+     *     <li>inn: organization's inn - optional;</li>
+     *     <li>isActive: boolean value of organization's activity - optional.</li>
+     * </ul>
+     *
+     * Next information are available:
+     * <ul
+     *     <li>id: organization's id;</li>
+     *     <li>name: organization's name;</li>
+     *     <li>isActive: boolean value of organization's activity.</li>
+     * </ul>
+     *
+     * @param filters the {@link String} value which contains filters and must be convertible into JSON
+     *
+     * @return the {@link Wrapper} object that can then be transformed into JSON
+     */
     public Wrapper getOrganizationsByFilters(String filters) {
         try {
             JSONObject jsonObject = (JSONObject) PARSER.parse(filters);
@@ -99,6 +148,24 @@ public class OrganizationService {
         }
     }
 
+    /**
+     * Updates an {@link Organization} and returns a {@link Wrapper} which contains information about operation results.
+     * Next values can be in argument:
+     * <ul>
+     *     <li>id: organization's id - required;</li>
+     *     <li>name: organization's name - required;</li>
+     *     <li>fullName: organization's full name - required;</li>
+     *     <li>inn: organization's inn - required;</li>
+     *     <li>kpp: organization's kpp - required;</li>
+     *     <li>address: organization's address - required;</li>
+     *     <li>phone: organization's phone - optional;</li>
+     *     <li>isActive: boolean value of organization's activity - optional.</li>
+     * </ul>
+     *
+     * @param organizationInfo the {@link String} value which contains information and must be convertible into JSON
+     *
+     * @return the {@link Wrapper} object that can then be transformed into JSON
+     */
     public Wrapper updateOrganization(String organizationInfo) {
         try {
             JSONObject jsonObject = (JSONObject) PARSER.parse(organizationInfo);
@@ -136,6 +203,23 @@ public class OrganizationService {
         }
     }
 
+    /**
+     * Saves an {@link Organization} and returns a {@link Wrapper} which contains information about operation results.
+     * Next values can be in argument:
+     * <ul>
+     *     <li>name: organization's name - required;</li>
+     *     <li>fullName: organization's full name - required;</li>
+     *     <li>inn: organization's inn - required;</li>
+     *     <li>kpp: organization's kpp - required;</li>
+     *     <li>address: organization's address - required;</li>
+     *     <li>phone: organization's phone - optional;</li>
+     *     <li>isActive: boolean value of organization's activity - optional.</li>
+     * </ul>
+     *
+     * @param newOrganizationInfo the {@link String} value which contains information and must be convertible into JSON
+     *
+     * @return the {@link Wrapper} object that can then be transformed into JSON
+     */
     public Wrapper saveOrganization(String newOrganizationInfo) {
         try {
             JSONObject jsonObject = (JSONObject) PARSER.parse(newOrganizationInfo);
