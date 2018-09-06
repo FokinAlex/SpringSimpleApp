@@ -21,6 +21,6 @@ public class CitizenshipController {
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
     public Wrapper index() {
-        return citizenshipService.getAllCitizenships();
+        return citizenshipService.getAllCitizenship();
     }
 }

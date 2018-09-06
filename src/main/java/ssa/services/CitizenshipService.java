@@ -16,12 +16,12 @@ public class CitizenshipService {
         this.citizenshipRepository = citizenshipRepository;
     }
 
-    public Wrapper getAllCitizenships() {
+    public Wrapper getAllCitizenship() {
         try {
-            List<Citizenship> citizenships =  citizenshipRepository.findAll();
+            List<Citizenship> allCitizenship =  citizenshipRepository.findAll();
             DataWrapper result = new DataWrapper();
 
-            citizenships.forEach(citizenship -> {
+            allCitizenship.forEach(citizenship -> {
                 result.getContentBuilder()
                         .put("code", citizenship.getCode())
                         .put("name", citizenship.getName())
